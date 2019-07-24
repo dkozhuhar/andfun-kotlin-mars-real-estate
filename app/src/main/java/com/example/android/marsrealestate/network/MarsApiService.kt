@@ -35,5 +35,5 @@ interface MarsApiService {
     fun getProperties() : Call<String>
 }
 
-val apiService = retrofit.create(MarsApiService::class.java)
+val apiService: MarsApiService by lazy { retrofit.create(MarsApiService::class.java) }
 
