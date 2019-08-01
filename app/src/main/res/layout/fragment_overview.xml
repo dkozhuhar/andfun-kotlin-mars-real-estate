@@ -44,14 +44,22 @@
             app:list_data="@{view_model.properties}"
             tools:itemCount="16"
             tools:listitem="@layout/grid_view_item"
+
             app:layout_constraintTop_toTopOf="parent"
             android:clipToPadding="false"/>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/mars_api_status"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:mars_api_status="@{view_model.status}"
-            tools:visibility="gone"
-            android:contentDescription="@string/mars_api_status" />
+            tools:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
