@@ -17,6 +17,7 @@
 
 package com.example.android.marsrealestate.overview
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,22 +28,28 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+enum class MarsApiStatus {
+    LOADING,
+    DONE,
+    ERROR
+}
+
 /**
  * The [ViewModel] that is attached to the [OverviewFragment].
  */
 class OverviewViewModel : ViewModel() {
 
     // The internal MutableLiveData String that stores the status of the most recent request
-    private val _status = MutableLiveData<String>()
+    private val _status = MutableLiveData<MarsApiStatus>()
 
     // The external immutable LiveData for the request status String
-    val status: LiveData<String>
+    val status: LiveData<MarsApiStatus>
         get() = _status
 
-    private val _property = MutableLiveData<MarsProperty>()
+    private val _properties = MutableLiveData<List<MarsProperty>>()
 
-    val property: LiveData<MarsProperty>
-    get() = _property
+    val properties: LiveData<List<MarsProperty>>
+    get() = _properties
 
     val vieModelJob = Job()
 
@@ -53,6 +60,7 @@ class OverviewViewModel : ViewModel() {
      */
     init {
         getMarsRealEstateProperties()
+        Log.i("OverviewViewModel", "getMarsRealEstateProperties called")
     }
 
     override fun onCleared() {
@@ -67,13 +75,15 @@ class OverviewViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
+                _status.value = MarsApiStatus.LOADING
                 val listOfMarsProperties = apiService.getProperties()
                 if (listOfMarsProperties.isNotEmpty()) {
-                    _property.value = listOfMarsProperties[0]
+                    _properties.value = listOfMarsProperties
                     }
+                _status.value = MarsApiStatus.DONE
             }
             catch (t: Throwable) {
-                _status.value = "Call failed: " + t.message
+                _status.value = MarsApiStatus.ERROR
             }
         }
 

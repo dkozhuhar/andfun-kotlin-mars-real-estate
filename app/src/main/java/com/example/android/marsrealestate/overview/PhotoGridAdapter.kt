@@ -16,3 +16,43 @@
  */
 
 package com.example.android.marsrealestate.overview
+
+import android.icu.lang.UCharacter.GraphemeClusterBreak.L
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.android.marsrealestate.R
+import com.example.android.marsrealestate.databinding.GridViewItemBinding
+import com.example.android.marsrealestate.network.MarsProperty
+
+class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.ViewHolder>(diffUtilCallback){
+    companion object diffUtilCallback:  DiffUtil.ItemCallback<MarsProperty>(){
+        override fun areItemsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
+            return oldItem.id == newItem.id
+        }
+    }
+
+    class ViewHolder(val binding: GridViewItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoGridAdapter.ViewHolder {
+        val binding = GridViewItemBinding.inflate(LayoutInflater.from(parent.context))
+        Log.i("PhotoGridAdapter", "onCreateViewHolder called")
+        return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: PhotoGridAdapter.ViewHolder, position: Int) {
+        holder.binding.property = getItem(position)
+        holder.binding.executePendingBindings()
+    }
+
+
+}

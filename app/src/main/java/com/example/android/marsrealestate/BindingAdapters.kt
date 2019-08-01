@@ -17,11 +17,20 @@
 
 package com.example.android.marsrealestate
 
+import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.ListAdapter
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.android.marsrealestate.databinding.GridViewItemBinding
+import com.example.android.marsrealestate.network.MarsProperty
+import com.example.android.marsrealestate.overview.MarsApiStatus
+import com.example.android.marsrealestate.overview.OverviewViewModel
+import com.example.android.marsrealestate.overview.PhotoGridAdapter
 
 @BindingAdapter("img_src")
 fun urlBind(imageView: ImageView, imgUrl: String?){
@@ -29,5 +38,26 @@ fun urlBind(imageView: ImageView, imgUrl: String?){
         it.toUri().buildUpon().scheme("https").build()
         Glide.with(imageView.context).load(it).placeholder(R.drawable.loading_animation).error(R.drawable.ic_broken_image).into(imageView)
     }
+}
 
+@BindingAdapter("list_data")
+fun adapterBind(recyclerView: RecyclerView, data: List<MarsProperty>?){
+    data?.apply { (recyclerView.adapter as PhotoGridAdapter).submitList(data) }
+}
+
+@BindingAdapter("mars_api_status")
+fun setMarsApiStatus(imageView: ImageView, status: MarsApiStatus){
+    when (status) {
+        MarsApiStatus.LOADING -> {
+            imageView.setImageResource(R.drawable.loading_animation)
+            imageView.visibility = View.VISIBLE
+        }
+        MarsApiStatus.ERROR -> {
+            imageView.setImageResource(R.drawable.ic_connection_error)
+            imageView.visibility = View.VISIBLE
+        }
+        MarsApiStatus.DONE -> {
+            imageView.visibility = View.GONE
+        }
+    }
 }

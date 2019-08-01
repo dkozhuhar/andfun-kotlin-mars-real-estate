@@ -23,7 +23,7 @@
 
     <data>
         <variable
-            name="viewModel"
+            name="view_model"
             type="com.example.android.marsrealestate.overview.OverviewViewModel" />
     </data>
 
@@ -31,14 +31,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.example.android.marsrealestate.MainActivity">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.property.imgSrcUrl}"
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:id="@+id/photos_grid"
+            android:layout_height="0dp"
+            android:padding="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            app:list_data="@{view_model.properties}"
+            tools:itemCount="16"
+            tools:listitem="@layout/grid_view_item"
+            app:layout_constraintTop_toTopOf="parent"
+            android:clipToPadding="false"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mars_api_status="@{view_model.status}"
+            tools:visibility="gone"
+            android:contentDescription="@string/mars_api_status" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
