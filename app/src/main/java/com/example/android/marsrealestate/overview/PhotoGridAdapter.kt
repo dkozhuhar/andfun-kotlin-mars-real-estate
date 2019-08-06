@@ -23,6 +23,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -50,7 +51,12 @@ class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.ViewHolder>(
     }
 
     override fun onBindViewHolder(holder: PhotoGridAdapter.ViewHolder, position: Int) {
-        holder.binding.property = getItem(position)
+        val marsProperty = getItem(position)
+        holder.binding.property = marsProperty
+        val action = OverviewFragmentDirections.actionShowDetail(marsProperty!!)
+        holder.binding.root.setOnClickListener {
+            it.findNavController().navigate(action)
+        }
         holder.binding.executePendingBindings()
     }
 
