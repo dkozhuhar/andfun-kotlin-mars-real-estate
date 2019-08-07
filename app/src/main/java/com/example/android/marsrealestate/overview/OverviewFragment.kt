@@ -22,11 +22,13 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.marsrealestate.R
 import com.example.android.marsrealestate.adapterBind
 import com.example.android.marsrealestate.databinding.FragmentOverviewBinding
 import com.example.android.marsrealestate.databinding.GridViewItemBinding
+import com.example.android.marsrealestate.network.MarsProperty
 
 /**
  * This fragment shows the the status of the Mars real-estate web services transaction.
@@ -55,7 +57,12 @@ class OverviewFragment : Fragment() {
         // Giving the binding access to the OverviewViewModel
 
         binding.viewModel = viewModel
-        binding.photosGrid.adapter = PhotoGridAdapter()
+        val onItemClickListener: (GridViewItemBinding) -> Unit = { gridViewItemBinding ->
+            gridViewItemBinding.property?.let {
+                gridViewItemBinding.root.findNavController().navigate(OverviewFragmentDirections.actionShowDetail(it))
+            }
+        }
+        binding.photosGrid.adapter = PhotoGridAdapter(onItemClickListener)
 
         setHasOptionsMenu(true)
 

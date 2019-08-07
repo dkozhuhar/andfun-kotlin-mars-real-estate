@@ -31,7 +31,7 @@ import com.example.android.marsrealestate.R
 import com.example.android.marsrealestate.databinding.GridViewItemBinding
 import com.example.android.marsrealestate.network.MarsProperty
 
-class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.ViewHolder>(diffUtilCallback){
+class PhotoGridAdapter(val onClick: (GridViewItemBinding) -> Unit) : ListAdapter<MarsProperty, PhotoGridAdapter.ViewHolder>(diffUtilCallback){
     companion object diffUtilCallback:  DiffUtil.ItemCallback<MarsProperty>(){
         override fun areItemsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
             return oldItem === newItem
@@ -51,11 +51,9 @@ class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.ViewHolder>(
     }
 
     override fun onBindViewHolder(holder: PhotoGridAdapter.ViewHolder, position: Int) {
-        val marsProperty = getItem(position)
-        holder.binding.property = marsProperty
-        val action = OverviewFragmentDirections.actionShowDetail(marsProperty!!)
+        holder.binding.property =  getItem(position)
         holder.binding.root.setOnClickListener {
-            it.findNavController().navigate(action)
+            onClick(holder.binding)
         }
         holder.binding.executePendingBindings()
     }
