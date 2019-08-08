@@ -36,6 +36,9 @@
                 app:argType="com.example.android.marsrealestate.network.MarsProperty"
             />
         </action>
+        <argument
+            android:name="mars_property"
+            app:argType="com.example.android.marsrealestate.network.MarsProperty" />
     </fragment>
 
     <fragment
@@ -43,6 +46,9 @@
         android:name="com.example.android.marsrealestate.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="mars_property"
+            app:argType="com.example.android.marsrealestate.network.MarsProperty" />
     </fragment>
 
 </navigation>

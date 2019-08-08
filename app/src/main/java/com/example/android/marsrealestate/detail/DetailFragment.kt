@@ -22,7 +22,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 import com.example.android.marsrealestate.databinding.FragmentDetailBinding
+import com.example.android.marsrealestate.network.MarsProperty
+import com.example.android.marsrealestate.overview.OverviewFragmentArgs
 
 /**
  * This [Fragment] will show the detailed information about a selected piece of Mars real estate.
@@ -35,6 +38,9 @@ class DetailFragment : Fragment() {
         val application = requireNotNull(activity).application
         val binding = FragmentDetailBinding.inflate(inflater)
         binding.setLifecycleOwner(this)
+        val args: OverviewFragmentArgs by navArgs()
+        val viewModel = DetailViewModelFactory(args.marsProperty,application).create(DetailViewModel::class.java)
+        binding.viewModel = viewModel
         return binding.root
     }
 }

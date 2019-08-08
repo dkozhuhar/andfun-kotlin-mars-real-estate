@@ -28,6 +28,7 @@ import com.example.android.marsrealestate.R
 import com.example.android.marsrealestate.adapterBind
 import com.example.android.marsrealestate.databinding.FragmentOverviewBinding
 import com.example.android.marsrealestate.databinding.GridViewItemBinding
+import com.example.android.marsrealestate.network.MarsApiFilter
 import com.example.android.marsrealestate.network.MarsProperty
 
 /**
@@ -75,5 +76,14 @@ class OverviewFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.overflow_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val filter = MarsApiFilter.SHOW_All
+        when (item?.itemId) {
+            R.id.show_rent_menu -> filter
+        }
+        viewModel.updateFilter()
+        return true
     }
 }
