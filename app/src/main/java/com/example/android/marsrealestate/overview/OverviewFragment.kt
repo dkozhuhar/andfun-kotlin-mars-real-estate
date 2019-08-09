@@ -79,11 +79,13 @@ class OverviewFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val filter = MarsApiFilter.SHOW_All
+        var filter = MarsApiFilter.SHOW_All
         when (item?.itemId) {
-            R.id.show_rent_menu -> filter
+            R.id.show_rent_menu -> filter = MarsApiFilter.SHOW_RENT
+            R.id.show_buy_menu -> filter = MarsApiFilter.SHOW_BUY
+            else -> filter = MarsApiFilter.SHOW_All
         }
-        viewModel.updateFilter()
+        viewModel.updateFilter(filter)
         return true
     }
 }
